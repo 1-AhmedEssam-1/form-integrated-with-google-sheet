@@ -91,6 +91,8 @@ async function loadBookings(search="", date = ""){
             <td>${booking[2]}</td>
             <td>${booking[3]}</td>
             <td>${booking[4]}</td>
+            <td>${booking[5]}</td>
+
           
             <td>${booking[6]}</td>
             <td>${booking[7]}</td>
