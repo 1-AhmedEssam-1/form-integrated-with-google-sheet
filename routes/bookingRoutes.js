@@ -162,12 +162,10 @@ router.get("/today", async (req, res) => {
             const today = new Date();
 
 
-            const todayString =
-                `${String(today.getDate()).padStart(2, "0")}/` +
-                `${String(today.getMonth() + 1).padStart(2, "0")}/` +
-                `${today.getFullYear()}`;
-
-
+            const todayString = new Date()
+                .toLocaleDateString("en-GB", {
+                    timeZone: "Africa/Cairo"
+                });
 
             console.log("Today's date:", todayString);
 
