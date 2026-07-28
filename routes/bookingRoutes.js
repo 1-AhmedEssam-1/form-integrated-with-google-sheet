@@ -80,9 +80,25 @@ router.get("/today", async (req, res) => {
         let bookings = response.data.values;
 
 
+        // Add real Google Sheet row number
+
+
+
         if (!bookings || bookings.length === 0) {
             return res.json([]);
         }
+
+
+        bookings = bookings.map((row, index) => {
+
+            return {
+                rowNumber: index + 1,
+                data: row
+            };
+
+        });
+
+        bookings.shift();
 
 
         const search = req.query.search;
@@ -113,7 +129,7 @@ router.get("/today", async (req, res) => {
             bookings = bookings.filter(row => {
 
 
-                const sheetDate = String(row[7]).trim();
+                const sheetDate = String(row.data[7]).trim();
 
 
                 console.log(
@@ -158,7 +174,7 @@ router.get("/today", async (req, res) => {
             bookings = bookings.filter(row => {
 
 
-                const bookingDate = String(row[7]).trim();
+                const bookingDate = String(row.data[7]).trim();
 
 
                 console.log("Checking:", bookingDate);
@@ -188,9 +204,9 @@ router.get("/today", async (req, res) => {
             bookings = bookings.filter(row => {
 
 
-                const tb3 = row[0] || "";
-                const phone = row[1] || "";
-                const name = row[2] || "";
+                const tb3 = row.data[0] || "";
+                const phone = row.data[1] || "";
+                const name = row.data[2] || "";
 
 
 
@@ -236,5 +252,62 @@ router.get("/today", async (req, res) => {
     }
 
 });
+
+
+
+
+
+
+router.delete("/:row", async (req, res) => {
+
+
+    try {
+        const row = Number(req.params.row);
+        await sheets.spreadsheets.batchUpdate({
+
+            spreadsheetId: SPREADSHEET_ID,
+            requestBody: {
+                requests: [
+                    {
+                        deleteDimension: {
+                            range: {
+                                sheetId: 966264468,
+                                dimension: "ROWS",
+                                startIndex: row - 1,
+                                endIndex: row
+
+                            }
+                        }
+                    }
+                ]
+            }
+
+        });
+
+        res.json({
+            message: "Booking deleted successfully"
+        });
+
+    }
+
+    catch (error) {
+
+        console.log(error.message);
+        res.status(500).json({
+            message: "Delete failed"
+        });
+    }
+
+});
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

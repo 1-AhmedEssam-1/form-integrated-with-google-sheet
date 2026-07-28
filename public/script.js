@@ -69,7 +69,7 @@ function addBooking(data) {
         </tr>
     `;
 }
-async function loadBookings(search="", date = ""){
+async function loadBookings(search = "", date = "") {
 
 
     const response = await fetch(
@@ -81,22 +81,33 @@ async function loadBookings(search="", date = ""){
     table.innerHTML = "";
 
 
-    bookings.forEach(booking => {
+    bookings.forEach((booking, index) => {
+        // const rowNumber = index + 2;
 
         table.innerHTML += `
 
         <tr>
-            <td>${booking[0]}</td>
-            <td>${booking[1]}</td>
-            <td>${booking[2]}</td>
-            <td>${booking[3]}</td>
-            <td>${booking[4]}</td>
-            <td>${booking[5]}</td>
+            <td>${booking.data[0]}</td>
+            <td>${booking.data[1]}</td>
+            <td>${booking.data[2]}</td>
+            <td>${booking.data[3]}</td>
+            <td>${booking.data[4]}</td>
+            <td>${booking.data[5]}</td>
+            <td>${booking.data[6]}</td>
+            <td>${booking.data[7]}</td>
+            <td>${booking.data[8]}</td>
+            <td>
 
-          
-            <td>${booking[6]}</td>
-            <td>${booking[7]}</td>
-            <td>${booking[8]}</td>
+                <button 
+                    class="delete-btn"
+                    onclick="deleteBooking(${booking.rowNumber})">
+
+                    🗑️
+
+                </button>
+
+
+            </td>
         </tr>
 
         `;
@@ -127,3 +138,34 @@ searchInput.addEventListener("input", () => {
 
 
 loadBookings();
+async function deleteBooking(row) {
+
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this booking?"
+    );
+
+
+    if (!confirmDelete)
+        return;
+
+
+
+    const response = await fetch(
+        `/api/bookings/${row}`,
+        {
+            method: "DELETE"
+        }
+    );
+
+
+    const result = await response.json();
+
+
+    alert(result.message);
+
+
+    loadBookings();
+
+
+}
