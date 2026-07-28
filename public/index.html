@@ -23,14 +23,15 @@
             <form id="bookingForm">
 
                 <label>Tb3</label>
-                <select id="tb3" required>
-                    <option value="">Choose Name</option>
-                    <option>Ahmed</option>
-                    <option>Mohamed</option>
-                    <option>Nancy</option>
-                    <option>Lamia</option>
-                    <option>Disha</option>
-                </select>
+                <input type="text" id="tb3" list="tb3Options" placeholder="Choose or write name" required>
+
+                <datalist id="tb3Options">
+                    <option value="Ahmed">
+                    <option value="Mohamed">
+                    <option value="Nancy">
+                    <option value="Lamia">
+                    <option value="Disha">
+                </datalist>
                 <label>Phone Number</label>
                 <input type="tel" id="phone" placeholder="010xxxxxxxx">
                 <label>Name</label>
@@ -55,7 +56,7 @@
                 <input type="date" id="date1" required>
 
 
-                
+
 
                 <label>Notes</label>
                 <textarea id="notes" rows="4" placeholder="Write any notes..."></textarea>

@@ -141,3 +141,90 @@ tbody tr:hover{
     background:#f7f7f7;
 
 }
+
+/* Responsive design for phones */
+@media (max-width: 768px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+
+    .form-card h1 {
+        padding: 20px 20px 10px;
+        font-size: 24px;
+    }
+
+
+    .form-card p {
+        padding: 0 20px 20px;
+        font-size: 14px;
+    }
+
+
+    form {
+        padding: 0 20px 20px;
+    }
+
+
+    input,
+    select,
+    textarea {
+        font-size: 16px; /* prevents zoom on iPhone */
+        padding: 12px;
+    }
+
+
+    button {
+        width: 100%;
+        padding: 14px;
+    }
+
+
+    .table-card {
+        padding: 15px;
+        overflow-x: auto;
+    }
+
+
+    table {
+        min-width: 800px; /* allows horizontal scrolling */
+    }
+
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+}
+
+
+/* Very small phones */
+@media (max-width: 400px) {
+
+    body {
+        padding: 10px;
+    }
+
+
+    .form-card h1 {
+        font-size: 20px;
+    }
+
+
+    label {
+        font-size: 14px;
+    }
+
+
+    .table-card {
+        padding: 10px;
+    }
+
+}
