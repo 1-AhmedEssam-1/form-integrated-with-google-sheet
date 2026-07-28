@@ -13,13 +13,15 @@ router.post("/", async (req, res) => {
         const booking = req.body;
         const now = new Date();
 
-        const registrationDate =
-            `${String(now.getDate()).padStart(2, "0")}/` +
-            `${String(now.getMonth() + 1).padStart(2, "0")}/` +
-            `${now.getFullYear()} ` +
-            `${String(now.getHours()).padStart(2, "0")}:` +
-            `${String(now.getMinutes()).padStart(2, "0")}`;
-
+        const registrationDate = now.toLocaleString("en-GB", {
+            timeZone: "Africa/Cairo",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        });
         await sheets.spreadsheets.values.append({
 
             spreadsheetId: SPREADSHEET_ID,
