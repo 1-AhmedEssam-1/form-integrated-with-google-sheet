@@ -136,7 +136,7 @@ async function loadBookings(search = "", date = "") {
             <td>${booking.data[2]}</td>
             <td>${booking.data[3]}</td>
             <td>${booking.data[4]}</td>
-            <td>${booking.data[5]}</td>
+       
             <td>${booking.data[6]}</td>
             <td>${booking.data[7]}</td>
             <td>${booking.data[8]}</td>
@@ -380,16 +380,51 @@ cancelEditBtn.addEventListener("click", () => {
 /////////////////////////////
 downloadReportBtn.addEventListener("click", async () => {
 
-    const tableCard = document.querySelector(".table-card");
 
-    const canvas = await html2canvas(tableCard, {
+    // Copy the table card
+    const original = document.querySelector(".table-card");
+
+    const clone = original.cloneNode(true);
+
+
+    // Make hidden full-size version
+    clone.style.position = "absolute";
+    clone.style.left = "-9999px";
+    clone.style.top = "0";
+
+    clone.style.width =
+    original.scrollWidth + "px";
+    clone.style.overflow = "visible";
+
+
+    // Make table fit completely
+    const clonedTable = clone.querySelector("table");
+
+    clonedTable.style.width = "1400px";
+
+
+    document.body.appendChild(clone);
+
+
+
+    // Take screenshot of the clone
+    const canvas = await html2canvas(clone, {
 
         scale: 2,
         useCORS: true
 
     });
 
+
+
+    // Remove temporary copy
+    document.body.removeChild(clone);
+
+
+
+    // Download image
     const image = canvas.toDataURL("image/png");
+
 
     const link = document.createElement("a");
 
@@ -398,5 +433,34 @@ downloadReportBtn.addEventListener("click", async () => {
     link.href = image;
 
     link.click();
+
+
+});
+
+const themeToggle = document.getElementById("themeToggle");
+
+// Restore saved mode
+if(localStorage.getItem("theme") === "dark"){
+
+    document.body.classList.add("dark-mode");
+    themeToggle.textContent = "☀️";
+
+}
+
+themeToggle.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark-mode");
+
+    if(document.body.classList.contains("dark-mode")){
+
+        localStorage.setItem("theme","dark");
+        themeToggle.textContent = "☀️";
+
+    }else{
+
+        localStorage.setItem("theme","light");
+        themeToggle.textContent = "🌙";
+
+    }
 
 });
