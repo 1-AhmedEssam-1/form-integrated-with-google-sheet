@@ -61,8 +61,11 @@
                 <label>Notes</label>
                 <textarea id="notes" rows="4" placeholder="Write any notes..."></textarea>
 
-                <button type="submit">
+                <button type="submit"  id="submitBtn">
                     Submit
+                </button>
+                <button type="button" id="cancelEditBtn" style="display:none;">
+                    Cancel
                 </button>
 
             </form>
@@ -104,6 +107,20 @@
                 </tbody>
 
             </table>
+
+        </div>
+
+    </div>
+
+    <div id="detailsModal" class="modal">
+
+        <div class="modal-content">
+
+            <span id="closeModal">✖</span>
+
+            <h2>Booking Details</h2>
+
+            <div id="bookingDetails"></div>
 
         </div>
 

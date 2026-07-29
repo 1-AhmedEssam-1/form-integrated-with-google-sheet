@@ -207,14 +207,17 @@ router.get("/today", async (req, res) => {
                 const tb3 = row.data[0] || "";
                 const phone = row.data[1] || "";
                 const name = row.data[2] || "";
+                const notes = row.data[5] || "";
+
 
 
 
                 return (
 
                     tb3.includes(searchValue) ||
+                    notes.includes(searchValue) ||
                     phone.includes(searchValue) ||
-                    name.includes(searchValue)
+                    name.includes(searchValue) 
 
                 );
 
@@ -254,7 +257,82 @@ router.get("/today", async (req, res) => {
 });
 
 
+// ======================================================
+// UPDATE BOOKING
+// PUT /api/bookings/:row
+// ======================================================
 
+router.put("/:row", async (req, res) => {
+
+    try {
+
+        // STEP 1: Get the Google Sheet row number
+        const row = Number(req.params.row);
+
+        // STEP 2: Get the updated booking data from the frontend
+        const booking = req.body;
+
+        // STEP 3: Read the existing row
+        // We only need it to keep the original registration date.
+        const oldRow = await sheets.spreadsheets.values.get({
+
+            spreadsheetId: SPREADSHEET_ID,
+
+            range: `${SHEET_NAME}!A${row}:I${row}`
+
+        });
+
+        // STEP 4: Keep the old registration date
+        const registrationDate = oldRow.data.values[0][8];
+
+        // STEP 5: Update the row
+        await sheets.spreadsheets.values.update({
+
+            spreadsheetId: SPREADSHEET_ID,
+
+            range: `${SHEET_NAME}!A${row}:I${row}`,
+
+            valueInputOption: "USER_ENTERED",
+
+            requestBody: {
+
+                values: [[
+                    booking.tb3,
+                    booking.phone,
+                    booking.name,
+                    booking.t7seel,
+                    booking.nights,
+                    booking.notes,
+                    booking.rooms,
+                    booking.bookingDate,
+                    registrationDate
+                ]]
+
+            }
+
+        });
+
+        // STEP 6: Success
+        res.json({
+
+            message: "Booking updated successfully"
+
+        });
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            message: "Update failed"
+
+        });
+
+    }
+
+});
 
 
 

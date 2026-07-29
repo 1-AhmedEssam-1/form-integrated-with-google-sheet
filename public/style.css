@@ -145,7 +145,10 @@ tbody tr:hover{
     background:#f7f7f7;
 
 }
-
+.ownership-row {
+    background-color: #ffc400;
+    font-weight: bold;
+}
 /* Responsive design for phones */
 @media (max-width: 768px) {
 
@@ -242,6 +245,28 @@ tbody tr:hover{
     cursor:pointer;
 
 }
+.edit-btn{
+
+    background:none;
+    border:none;
+    padding:5px;
+    margin:0;
+    font-size:20px;
+    cursor:pointer;
+
+}
+.view-btn{
+
+    background:none;
+    border:none;
+    padding:5px;
+    margin:0;
+    font-size:20px;
+    cursor:pointer;
+
+}
+
+
 
 
 .delete-btn:hover{
@@ -250,3 +275,64 @@ tbody tr:hover{
     border-radius:50%;
 
 }   
+
+.modal{
+
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.5);
+
+    justify-content:center;
+    align-items:center;
+
+}
+
+
+.modal-content{
+
+    background:white;
+    padding:30px;
+    border-radius:10px;
+
+    width:400px;
+    max-width:90%;
+
+}
+
+
+#closeModal{
+
+    float:right;
+    cursor:pointer;
+
+}
+.editing-form{
+
+    animation: editHighlight 1s ease;
+
+}
+
+
+@keyframes editHighlight{
+
+
+    0%{
+
+        box-shadow:0 0 0 0 rgba(103,58,183,.8);
+
+    }
+
+
+    100%{
+
+        box-shadow:0 0 0 20px rgba(103,58,183,0);
+
+    }
+
+
+}
