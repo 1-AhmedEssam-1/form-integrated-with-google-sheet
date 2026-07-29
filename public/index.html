@@ -61,7 +61,7 @@
                 <label>Notes</label>
                 <textarea id="notes" rows="4" placeholder="Write any notes..."></textarea>
 
-                <button type="submit"  id="submitBtn">
+                <button type="submit" id="submitBtn">
                     Submit
                 </button>
                 <button type="button" id="cancelEditBtn" style="display:none;">
@@ -75,7 +75,19 @@
 
         <div class="table-card">
 
-            <h2>Today's Bookings</h2>
+            <!-- <h2>Today's Bookings</h2> -->
+            <div class="table-header">
+
+                <h2>
+                    Today's Bookings
+                    (<span id="bookingCount"></span>)
+                </h2>
+
+                <button id="downloadReportBtn" class="download-btn">
+                    📥 Download Report
+                </button>
+
+            </div>
             <input type="text" id="searchInput" placeholder="Search the whole sheet by client name or phone or tb3">
             <label>Search by date</label>
 
@@ -125,6 +137,8 @@
         </div>
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 
     <script src="script.js"></script>
 

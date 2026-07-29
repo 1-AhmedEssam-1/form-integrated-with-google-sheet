@@ -11,6 +11,10 @@ const bookingDetails = document.getElementById("bookingDetails");
 const closeModal = document.getElementById("closeModal");
 const submitBtn = document.getElementById("submitBtn");
 const cancelEditBtn = document.getElementById("cancelEditBtn");
+const bookingCount = document.getElementById("bookingCount");
+
+const downloadReportBtn =
+    document.getElementById("downloadReportBtn");
 form.addEventListener("submit", async function (e) {
 
     e.preventDefault();
@@ -109,6 +113,7 @@ async function loadBookings(search = "", date = "") {
     console.log(bookings);
 
     currentBookings = bookings;
+    bookingCount.textContent = bookings.length;
 
 
     table.innerHTML = "";
@@ -349,7 +354,7 @@ window.onclick = function (e) {
     }
 
 };
-cancelEditBtn.addEventListener("click",()=>{
+cancelEditBtn.addEventListener("click", () => {
 
 
     // Remove editing mode
@@ -367,5 +372,31 @@ cancelEditBtn.addEventListener("click",()=>{
     // Hide cancel button
     cancelEditBtn.style.display = "none";
 
+
+});
+
+
+
+/////////////////////////////
+downloadReportBtn.addEventListener("click", async () => {
+
+    const tableCard = document.querySelector(".table-card");
+
+    const canvas = await html2canvas(tableCard, {
+
+        scale: 2,
+        useCORS: true
+
+    });
+
+    const image = canvas.toDataURL("image/png");
+
+    const link = document.createElement("a");
+
+    link.download = "Bookings_Report.png";
+
+    link.href = image;
+
+    link.click();
 
 });
