@@ -152,6 +152,8 @@ async function loadBookings(search = "", date = "") {
             <td>${booking.data[2]}</td>
             <td>${booking.data[3]}</td>
             <td>${booking.data[4]}</td>
+            <td>${booking.data[5]}</td>
+
        
             <td>${booking.data[6]}</td>
             <td>${booking.data[7]}</td>
