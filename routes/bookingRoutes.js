@@ -5,7 +5,6 @@ const sheets = require("../services/googleSheets");
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 const SHEET_NAME = "Sheet1";
-
 router.post("/", async (req, res) => {
 
     try {
@@ -22,6 +21,8 @@ router.post("/", async (req, res) => {
             minute: "2-digit",
             hour12: false
         });
+
+        // Add booking
         await sheets.spreadsheets.values.append({
 
             spreadsheetId: SPREADSHEET_ID,
@@ -43,26 +44,98 @@ router.post("/", async (req, res) => {
                     booking.bookingDate,
                     registrationDate,
                     ""
-                    // booking.notes
                 ]]
 
             }
 
         });
 
+
+        // Read sheet to know the last row number
+        const sheetData = await sheets.spreadsheets.values.get({
+
+            spreadsheetId: SPREADSHEET_ID,
+
+            range: `${SHEET_NAME}!A:J`
+
+        });
+
+        const lastRow = sheetData.data.values.length;
+
+
+        // Reset background color of the new row
+        await sheets.spreadsheets.batchUpdate({
+
+            spreadsheetId: SPREADSHEET_ID,
+
+            requestBody: {
+
+                requests: [
+
+                    {
+
+                        repeatCell: {
+
+                            range: {
+
+                                sheetId: 966264468,
+
+                                startRowIndex: lastRow - 1,
+
+                                endRowIndex: lastRow,
+
+                                startColumnIndex: 0,
+
+                                endColumnIndex: 10
+
+                            },
+
+                            cell: {
+
+                                userEnteredFormat: {
+
+                                    backgroundColor: {
+
+                                        red: 1,
+                                        green: 1,
+                                        blue: 1
+
+                                    }
+
+                                }
+
+                            },
+
+                            fields:
+                                "userEnteredFormat.backgroundColor"
+
+                        }
+
+                    }
+
+                ]
+
+            }
+
+        });
+
+
         res.status(201).json({
+
             success: true,
             message: "Booking saved successfully!"
+
         });
 
     } catch (error) {
 
-        console.error(error.message);
-        console.log("teez")
+        console.error(error);
 
         res.status(500).json({
+
             success: false,
             message: "Failed to save booking."
+
         });
 
     }
