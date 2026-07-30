@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
             spreadsheetId: SPREADSHEET_ID,
 
-            range: `${SHEET_NAME}!A:I`,
+            range: `${SHEET_NAME}!A:J`,
 
             valueInputOption: "USER_ENTERED",
 
@@ -41,7 +41,8 @@ router.post("/", async (req, res) => {
                     booking.notes,
                     booking.rooms,
                     booking.bookingDate,
-                    registrationDate
+                    registrationDate,
+                    ""
                     // booking.notes
                 ]]
 
@@ -74,7 +75,7 @@ router.get("/today", async (req, res) => {
         const response = await sheets.spreadsheets.values.get({
 
             spreadsheetId: SPREADSHEET_ID,
-            range: `${SHEET_NAME}!A:I`
+            range: `${SHEET_NAME}!A:J`
 
         });
 
@@ -257,6 +258,158 @@ router.get("/today", async (req, res) => {
 });
 
 
+
+
+router.put("/color/:row", async(req,res)=>{
+
+    try{
+
+        const row = Number(req.params.row);
+        const color = req.body.color;
+
+
+        // Save color name in column J
+        await sheets.spreadsheets.values.update({
+
+            spreadsheetId: SPREADSHEET_ID,
+
+            range:`${SHEET_NAME}!J${row}`,
+
+            valueInputOption:"USER_ENTERED",
+
+            requestBody:{
+                values:[
+                    [color]
+                ]
+            }
+
+        });
+
+
+
+        // Convert color name to Google Sheet RGB
+        let rgb = {
+            red:1,
+            green:1,
+            blue:1
+        };
+
+
+        if(color === "green"){
+
+            rgb = {
+                red:0.49,
+                green:0.85,
+                blue:0.34
+            };
+
+        }
+
+        else if(color === "yellow"){
+
+            rgb = {
+                red:1,
+                green:0.85,
+                blue:0.24
+            };
+
+        }
+
+        else if(color === "red"){
+
+            rgb = {
+                red:1,
+                green:0.36,
+                blue:0.36
+            };
+
+        }
+
+        else if(color === "blue"){
+
+            rgb = {
+                red:0.3,
+                green:0.65,
+                blue:0.95
+            };
+
+        }
+
+
+
+        // Color the whole row
+        await sheets.spreadsheets.batchUpdate({
+
+            spreadsheetId: SPREADSHEET_ID,
+
+            requestBody:{
+
+                requests:[
+
+                    {
+
+                    repeatCell:{
+
+                        range:{
+
+                            sheetId: 966264468,
+
+                            startRowIndex: row - 1,
+
+                            endRowIndex: row,
+
+                            startColumnIndex: 0,
+
+                            endColumnIndex: 10
+
+                        },
+
+
+                        cell:{
+                            userEnteredFormat:{
+                                backgroundColor: rgb
+                            }
+                        },
+
+
+                        fields:
+                        "userEnteredFormat.backgroundColor"
+
+                    }
+
+                    }
+
+                ]
+
+            }
+
+        });
+
+
+
+        res.json({
+
+            message:"Color saved successfully"
+
+        });
+
+
+
+    }catch(error){
+
+        console.log(error);
+
+        res.status(500).json({
+
+            message:"Color update failed"
+
+        });
+
+    }
+
+});
+
+
 // ======================================================
 // UPDATE BOOKING
 // PUT /api/bookings/:row
@@ -333,7 +486,6 @@ router.put("/:row", async (req, res) => {
     }
 
 });
-
 
 
 router.delete("/:row", async (req, res) => {

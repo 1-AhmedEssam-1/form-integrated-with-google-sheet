@@ -15,6 +15,10 @@ const bookingCount = document.getElementById("bookingCount");
 
 const downloadReportBtn =
     document.getElementById("downloadReportBtn");
+const colorModal = document.getElementById("colorModal");
+
+let coloringRow = null;
+
 form.addEventListener("submit", async function (e) {
 
     e.preventDefault();
@@ -124,9 +128,21 @@ async function loadBookings(search = "", date = "") {
 
         let rowClass = "";
 
-        if (booking.data[5].includes("تمليك")) {
-            rowClass = "ownership-row";
+        // Automatic highlight
+       if(
+                booking.data[5] &&
+                booking.data[5].includes("تمليك")
+            ){
+                rowClass="ownership-row";
+            }
+        const savedColor = booking.data[9];
+
+        if (savedColor) {
+
+            rowClass = savedColor;
+
         }
+    
 
         table.innerHTML += `
 
@@ -146,7 +162,11 @@ async function loadBookings(search = "", date = "") {
                     onclick="viewBooking(${booking.rowNumber})">
                     👁️
                 </button>
-
+                <button
+                    class="color-btn"
+                    onclick="showColorPicker(${booking.rowNumber})">
+                    🎨
+                </button>
 
 
 
@@ -171,7 +191,7 @@ async function loadBookings(search = "", date = "") {
 
         `;
 
-    });
+});
 
 }
 function formatDate(date) {
@@ -393,7 +413,7 @@ downloadReportBtn.addEventListener("click", async () => {
     clone.style.top = "0";
 
     clone.style.width =
-    original.scrollWidth + "px";
+        original.scrollWidth + "px";
     clone.style.overflow = "visible";
 
 
@@ -440,27 +460,82 @@ downloadReportBtn.addEventListener("click", async () => {
 const themeToggle = document.getElementById("themeToggle");
 
 // Restore saved mode
-if(localStorage.getItem("theme") === "dark"){
+if (localStorage.getItem("theme") === "dark") {
 
     document.body.classList.add("dark-mode");
     themeToggle.textContent = "☀️";
 
 }
 
-themeToggle.addEventListener("click",()=>{
+themeToggle.addEventListener("click", () => {
 
     document.body.classList.toggle("dark-mode");
 
-    if(document.body.classList.contains("dark-mode")){
+    if (document.body.classList.contains("dark-mode")) {
 
-        localStorage.setItem("theme","dark");
+        localStorage.setItem("theme", "dark");
         themeToggle.textContent = "☀️";
 
-    }else{
+    } else {
 
-        localStorage.setItem("theme","light");
+        localStorage.setItem("theme", "light");
         themeToggle.textContent = "🌙";
 
     }
 
 });
+function showColorPicker(row) {
+
+    coloringRow = row;
+
+    colorModal.style.display = "block";
+
+}
+window.addEventListener("click", (e) => {
+
+    if (e.target === colorModal) {
+
+        colorModal.style.display = "none";
+
+    }
+
+});
+async function setRowColor(color){
+
+    if(coloringRow === null)
+        return;
+
+
+    const response = await fetch(
+        `/api/bookings/color/${coloringRow}`,
+        {
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                color:color
+            })
+        }
+    );
+
+
+    const result = await response.json();
+
+
+    alert(result.message);
+
+
+    colorModal.style.display="none";
+
+
+    // reload with same search/date
+    loadBookings(
+        currentSearch,
+        currentDate
+    );
+
+
+    coloringRow = null;
+
+}

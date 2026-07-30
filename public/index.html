@@ -141,8 +141,28 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <div id="colorModal" class="color-modal">
 
+    <div class="color-box green"
+         onclick="setRowColor('green')"></div>
+
+    <div class="color-box yellow"
+         onclick="setRowColor('yellow')"></div>
+
+    <div class="color-box red"
+         onclick="setRowColor('red')"></div>
+
+    <div class="color-box blue"
+         onclick="setRowColor('blue')"></div>
+
+    <button id="close" class="color-box clear"
+         onclick="setRowColor('')">
+         ✖
+    </button>
+
+    </div>
     <script src="script.js"></script>
+    
 
 </body>
 
