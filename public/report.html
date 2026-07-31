@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Booking Report</title>
+
+
+<style>
+
+body{
+
+    font-family: Arial, sans-serif;
+    padding:30px;
+
+}
+
+
+h1{
+
+    text-align:center;
+    margin-bottom:10px;
+
+}
+
+
+.report-info{
+
+    text-align:center;
+    margin-bottom:20px;
+
+}
+
+th:nth-child(2),
+td:nth-child(2){
+
+    white-space: nowrap;
+    font-size:11px;
+
+}
+th:nth-child(3),
+td:nth-child(3){
+
+    /* white-space: nowrap; */
+    font-size:14px;
+    font-weight: bold;
+
+}
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+
+th,td{
+
+    border:1px solid #333;
+    padding:8px;
+    text-align:center;
+    font-size:12px;
+
+}
+
+
+th{
+
+    background:#ddd;
+
+}
+
+
+@media print{
+
+
+    body{
+
+        padding:0;
+
+    }
+
+
+    button{
+
+        display:none;
+
+    }
+
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<button onclick="window.print()">
+    Print / Save PDF
+</button>
+
+
+<h1>
+    Booking Report
+</h1>
+
+
+<div class="report-info">
+
+    <span id="reportDate"></span>
+
+</div>
+
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Tb3</th>
+<th>Phone</th>
+<th>Name</th>
+<th>T7seel</th>
+<th>Nights</th>
+<th>Notes</th>
+<th>Rooms</th>
+<th>Booking Date</th>
+<th>Registration Date</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="reportTable">
+
+</tbody>
+
+
+</table>
+
+
+
+<script>
+
+
+const params = new URLSearchParams(
+    window.location.search
+);
+
+
+const search =
+params.get("search") || "";
+
+
+const date =
+params.get("date") || "";
+
+
+
+async function loadReport(){
+
+
+    const response = await fetch(
+        `/api/bookings/today?search=${encodeURIComponent(search)}&date=${date}`
+    );
+
+
+    const bookings = await response.json();
+
+
+
+    const table =
+    document.getElementById("reportTable");
+
+
+
+    table.innerHTML = bookings.map(booking => `
+
+        <tr>
+
+            <td>${booking.data[0] || ""}</td>
+
+            <td>${booking.data[1] || ""}</td>
+
+            <td>${booking.data[2] || ""}</td>
+
+            <td>${booking.data[3] || ""}</td>
+
+            <td>${booking.data[4] || ""}</td>
+
+            <td>${booking.data[5] || ""}</td>
+
+            <td>${booking.data[6] || ""}</td>
+
+            <td>${booking.data[7] || ""}</td>
+
+            <td>${booking.data[8] || ""}</td>
+
+
+        </tr>
+
+
+    `).join("");
+
+
+
+    document.getElementById("reportDate").textContent =
+        `Total Bookings: ${bookings.length}`;
+
+
+}
+
+
+
+loadReport();
+
+
+</script>
+
+
+</body>
+
+</html>

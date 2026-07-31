@@ -88,6 +88,9 @@
                 <button id="downloadReportBtn" class="download-btn">
                     📥 Download Report
                 </button>
+                <button id="downloadPdfBtn" class="download-btn">
+                    📄 Download PDF
+                </button>
 
             </div>
             <input type="text" id="searchInput" placeholder="Search the whole sheet by client name or phone or tb3">
@@ -143,26 +146,21 @@
 
     <div id="colorModal" class="color-modal">
 
-    <div class="color-box green"
-         onclick="setRowColor('green')"></div>
+        <div class="color-box green" onclick="setRowColor('green')"></div>
 
-    <div class="color-box yellow"
-         onclick="setRowColor('yellow')"></div>
+        <div class="color-box yellow" onclick="setRowColor('yellow')"></div>
 
-    <div class="color-box red"
-         onclick="setRowColor('red')"></div>
+        <div class="color-box red" onclick="setRowColor('red')"></div>
 
-    <div class="color-box blue"
-         onclick="setRowColor('blue')"></div>
+        <div class="color-box blue" onclick="setRowColor('blue')"></div>
 
-    <button id="close" class="color-box clear"
-         onclick="setRowColor('')">
-         ✖
-    </button>
+        <button id="close" class="color-box clear" onclick="setRowColor('')">
+            ✖
+        </button>
 
     </div>
     <script src="script.js"></script>
-    
+
 
 </body>
 

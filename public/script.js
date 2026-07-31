@@ -12,7 +12,8 @@ const closeModal = document.getElementById("closeModal");
 const submitBtn = document.getElementById("submitBtn");
 const cancelEditBtn = document.getElementById("cancelEditBtn");
 const bookingCount = document.getElementById("bookingCount");
-
+const downloadPdfBtn =
+    document.getElementById("downloadPdfBtn");
 const downloadReportBtn =
     document.getElementById("downloadReportBtn");
 const colorModal = document.getElementById("colorModal");
@@ -541,3 +542,12 @@ async function setRowColor(color){
     coloringRow = null;
 
 }
+downloadPdfBtn.addEventListener("click", () => {
+
+    const url =
+    `/report.html?search=${encodeURIComponent(currentSearch)}&date=${currentDate}`;
+
+
+    window.open(url, "_blank");
+
+});
