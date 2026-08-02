@@ -187,6 +187,12 @@ async function loadBookings(search = "", date = "") {
                     🗑️
 
                 </button>
+                
+                <button
+                    class="whatsapp-btn"
+                    onclick="sendWhatsApp(${booking.rowNumber})">
+                    📱
+                </button>
 
 
             </td>
@@ -196,6 +202,32 @@ async function loadBookings(search = "", date = "") {
 
 });
 
+}
+function sendWhatsApp(rowNumber) {
+
+    const booking = currentBookings.find(
+        b => b.rowNumber === rowNumber
+    );
+
+    if (!booking) {
+        alert("Booking not found.");
+        return;
+    }
+
+    const managerPhone = "+201026498803"; // <-- Replace with your number
+
+    const message = `🏨 New Booking
+
+الاسم: ${booking.data[2]}
+الرقم: ${booking.data[1]}
+عدد الليالي: ${booking.data[4]}
+عدد الغرف: ${booking.data[6]}
+تاريخ الحجز: ${booking.data[7]}`;
+
+    window.open(
+        `https://wa.me/${managerPhone}?text=${encodeURIComponent(message)}`,
+        "_blank"
+    );
 }
 function formatDate(date) {
 
