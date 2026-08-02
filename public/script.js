@@ -216,13 +216,11 @@ function sendWhatsApp(rowNumber) {
 
     const managerPhone = "+201026498803"; // <-- Replace with your number
 
-    const message = `🏨 New Booking
+    const message = `
 
 الاسم: ${booking.data[2]}
-الرقم: ${booking.data[1]}
-عدد الليالي: ${booking.data[4]}
-عدد الغرف: ${booking.data[6]}
-تاريخ الحجز: ${booking.data[7]}`;
+
+عدد الليالي: ${booking.data[4]}`;
 
     window.open(
         `https://wa.me/${managerPhone}?text=${encodeURIComponent(message)}`,
