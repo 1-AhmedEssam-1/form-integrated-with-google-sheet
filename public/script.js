@@ -219,8 +219,7 @@ function sendWhatsApp(rowNumber) {
     const message = `
 
 الاسم: ${booking.data[2]}
-
-عدد الليالي: ${booking.data[4]}`;
+عدد الشاليهات: ${booking.data[6]}`;
 
     window.open(
         `https://wa.me/${managerPhone}?text=${encodeURIComponent(message)}`,
