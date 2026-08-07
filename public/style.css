@@ -287,6 +287,9 @@ tbody tr:hover{
     cursor:pointer;
 
 }
+.whatsapp-btn{
+    background: none;
+}
 .edit-btn{
 
     background:none;
@@ -548,4 +551,16 @@ th,
 
     font-size:18px;
 
+}
+#bookingForm {
+    direction: rtl;
+    text-align: right;
+}
+
+#phone,
+#nights,
+#rooms,
+#date1 {
+    direction: ltr;
+    text-align: left;
 }

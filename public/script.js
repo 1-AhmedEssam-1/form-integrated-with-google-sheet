@@ -432,60 +432,200 @@ cancelEditBtn.addEventListener("click", () => {
 /////////////////////////////
 downloadReportBtn.addEventListener("click", async () => {
 
+    // Get only the booking table
+    const originalTable = document.querySelector(".table-card table");
 
-    // Copy the table card
-    const original = document.querySelector(".table-card");
+    // Create a clean temporary report container
+    const reportContainer = document.createElement("div");
 
-    const clone = original.cloneNode(true);
+    reportContainer.style.position = "absolute";
+    reportContainer.style.left = "-10000px";
+    reportContainer.style.top = "0";
 
+    reportContainer.style.display = "inline-block";
+    reportContainer.style.width = "max-content";
 
-    // Make hidden full-size version
-    clone.style.position = "absolute";
-    clone.style.left = "-9999px";
-    clone.style.top = "0";
+    reportContainer.style.background = "#ffffff";
+    reportContainer.style.color = "#000000";
 
-    clone.style.width =
-        original.scrollWidth + "px";
-    clone.style.overflow = "visible";
+    reportContainer.style.padding = "20px";
 
-
-    // Make table fit completely
-    const clonedTable = clone.querySelector("table");
-
-    clonedTable.style.width = "1400px";
-
-
-    document.body.appendChild(clone);
+    reportContainer.style.fontFamily =
+        "Arial, Helvetica, sans-serif";
 
 
+    // ============================
+    // Report title
+    // ============================
 
-    // Take screenshot of the clone
-    const canvas = await html2canvas(clone, {
+    const title = document.createElement("h2");
 
-        scale: 2,
-        useCORS: true
+    title.textContent =
+        `Today's Bookings (${currentBookings.length})`;
+
+    title.style.margin = "0 0 20px 0";
+    title.style.color = "#000";
+    title.style.textAlign = "left";
+
+
+    reportContainer.appendChild(title);
+
+
+    // ============================
+    // Clone table
+    // ============================
+
+    const clonedTable =
+        originalTable.cloneNode(true);
+
+
+    // Make table only as wide as its actual content
+    clonedTable.style.width = "max-content";
+    clonedTable.style.minWidth = "0";
+    clonedTable.style.margin = "0";
+    clonedTable.style.borderCollapse = "collapse";
+    clonedTable.style.background = "#ffffff";
+
+
+    // ============================
+    // Remove Actions column
+    // ============================
+
+    const rows =
+        clonedTable.querySelectorAll("tr");
+
+    rows.forEach(row => {
+
+        const cells = row.children;
+
+        if (cells.length > 0) {
+
+            // Last column is Actions
+            cells[cells.length - 1].remove();
+
+        }
 
     });
 
 
+    // ============================
+    // Style table cells
+    // ============================
 
-    // Remove temporary copy
-    document.body.removeChild(clone);
+    const headers =
+        clonedTable.querySelectorAll("th");
+
+    headers.forEach(th => {
+
+        th.style.padding = "10px";
+        th.style.background = "#673ab7";
+        th.style.color = "#ffffff";
+        th.style.textAlign = "center";
+        th.style.whiteSpace = "nowrap";
+        th.style.fontSize = "14px";
+
+    });
 
 
+    const cells =
+        clonedTable.querySelectorAll("td");
 
-    // Download image
-    const image = canvas.toDataURL("image/png");
+    cells.forEach(td => {
+
+        td.style.padding = "10px";
+        td.style.textAlign = "center";
+        td.style.whiteSpace = "nowrap";
+        td.style.fontSize = "13px";
+        td.style.borderBottom =
+            "1px solid #dddddd";
+
+    });
 
 
-    const link = document.createElement("a");
+    // Phone column smaller
+    clonedTable.querySelectorAll(
+        "th:nth-child(2), td:nth-child(2)"
+    ).forEach(cell => {
 
-    link.download = "Bookings_Report.png";
+        cell.style.fontSize = "11px";
 
-    link.href = image;
+    });
 
-    link.click();
 
+    reportContainer.appendChild(clonedTable);
+
+
+    // Put temporary report in the page
+    document.body.appendChild(reportContainer);
+
+
+    try {
+
+        // Wait a moment for browser to calculate dimensions
+        await new Promise(resolve =>
+            requestAnimationFrame(resolve)
+        );
+
+
+        // ============================
+        // Screenshot ONLY report
+        // ============================
+
+        const canvas =
+            await html2canvas(reportContainer, {
+
+                scale: 2,
+
+                useCORS: true,
+
+                backgroundColor: "#ffffff",
+
+                logging: false
+
+            });
+
+
+        // ============================
+        // Download image
+        // ============================
+
+        const image =
+            canvas.toDataURL("image/png");
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.download =
+            "Bookings_Report.png";
+
+
+        link.href = image;
+
+
+        link.click();
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Error creating report:",
+            error
+        );
+
+        alert(
+            "Could not create the report image."
+        );
+
+    }
+    finally {
+
+        // Always remove temporary report
+        reportContainer.remove();
+
+    }
 
 });
 
