@@ -577,3 +577,26 @@ th,
 .hide-column-btn:hover {
     background: transparent;
 }
+/* Eye buttons inside table headers */
+.hide-column-btn {
+    width: auto !important;
+    min-width: 0 !important;
+
+    display: inline-block;
+
+    background: none !important;
+    border: none;
+
+    padding: 2px 4px !important;
+    margin: 0 4px !important;
+
+    font-size: 13px;
+    line-height: 1;
+
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.hide-column-btn:hover {
+    background: none !important;
+}
