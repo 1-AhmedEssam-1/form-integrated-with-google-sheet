@@ -22,24 +22,16 @@
             <p>Please fill in the information below.</p>
             <button id="themeToggle" class="theme-btn">🌙</button>
 
-            <form id="bookingForm" dir = "rtl">
+            <form id="bookingForm" dir="rtl">
 
                 <label>تبع</label>
-                <input type="text" id="tb3" list="tb3Options" placeholder="Choose or write name" required>
-
-                <datalist id="tb3Options">
-                    <option value="Ahmed">
-                    <option value="Mohamed">
-                    <option value="Nancy">
-                    <option value="Lamia">
-                    <option value="Disha">
-                </datalist>
+                <input type="text" id="tb3" required>
                 <label> رقم التليفون</label>
                 <input type="tel" id="phone" placeholder="010xxxxxxxx">
                 <label>الاسم</label>
-                <input type="text" id="name" placeholder="Enter the name ">
+                <input type="text" id="name" placeholder="اكتب اسم">
                 <label>التحصيل</label>
-                <textarea id="t7seel" rows="4" placeholder="Write any notes..."></textarea>
+                <textarea id="t7seel" rows="4" placeholder="التحصيل"></textarea>
 
 
                 <label>عدد الليالي</label>
@@ -61,7 +53,7 @@
 
 
                 <label>التفاصيل</label>
-                <textarea id="notes" rows="4" placeholder="Write any notes..."></textarea>
+                <textarea id="notes" rows="4" placeholder="التفاصيل"></textarea>
 
                 <button type="submit" id="submitBtn">
                     Submit
@@ -88,6 +80,7 @@
                 <button id="downloadReportBtn" class="download-btn">
                     📥 Download Image
                 </button>
+
                 <button id="downloadPdfBtn" class="download-btn">
                     📄 Download PDF
                 </button>
@@ -97,22 +90,39 @@
             <label>Search by date</label>
 
             <input type="date" id="searchDate">
+            <button id="showColumnsBtn" class="download-btn">
+                👁 Show All
+            </button>
             <table>
 
                 <thead>
 
                     <tr>
-                        <th>تبع</th>
-                        <th>رقم التليفون</th>
-                        <th>الاسم</th>
-                        <th>التحصيل</th>
-                        <th>عدد الليالي</th>
-                        <th>التفاصيل</th>
+                        <thead>
+                            <tr>
+                                <th>تبع <button class="hide-column-btn" onclick="hideColumn(1)">👁</button></th>
 
-                        <th>عدد الغرف</th>
-                        <th>التاريخ</th>
-                        <th>تاريخ الارسال</th>
-                        <th>Actions</th>
+                                <th>رقم التليفون <button class="hide-column-btn" onclick="hideColumn(2)">👁</button>
+                                </th>
+
+                                <th>الاسم <button class="hide-column-btn" onclick="hideColumn(3)">👁</button></th>
+
+                                <th>التحصيل <button class="hide-column-btn" onclick="hideColumn(4)">👁</button></th>
+
+                                <th>عدد الليالي <button class="hide-column-btn" onclick="hideColumn(5)">👁</button></th>
+
+                                <th>التفاصيل <button class="hide-column-btn" onclick="hideColumn(6)">👁</button></th>
+
+                                <th>عدد الغرف <button class="hide-column-btn" onclick="hideColumn(7)">👁</button></th>
+
+                                <th>التاريخ <button class="hide-column-btn" onclick="hideColumn(8)">👁</button></th>
+
+                                <th>تاريخ الارسال <button class="hide-column-btn" onclick="hideColumn(9)">👁</button>
+                                </th>
+
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
 
 
                     </tr>

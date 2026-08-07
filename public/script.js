@@ -720,3 +720,30 @@ downloadPdfBtn.addEventListener("click", () => {
     window.open(url, "_blank");
 
 });
+function hideColumn(columnNumber) {
+
+    const bookingTable =
+        document.querySelector(".table-card table");
+
+    bookingTable
+        .querySelectorAll(
+            `tr > *:nth-child(${columnNumber})`
+        )
+        .forEach(cell => {
+
+            cell.style.display = "none";
+
+        });
+}
+
+document
+    .getElementById("showColumnsBtn")
+    .addEventListener("click", () => {
+
+        document
+            .querySelectorAll(".table-card table th, .table-card table td")
+            .forEach(cell => {
+                cell.style.display = "";
+            });
+
+    });
